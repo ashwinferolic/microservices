@@ -1,0 +1,8 @@
+orders/node_modules
+orders/.env
+
+users/node_modules
+users/.env
+
+products/node_modules
+products/.env
