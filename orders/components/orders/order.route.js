@@ -10,6 +10,7 @@ const {
   cancelOrder,
   getUserIds,
   getUserDetails,
+  getOrderDetails,
 } = require("./order.controller");
 
 router.post("/add", protected, validate(addorderSchema), addOrder);

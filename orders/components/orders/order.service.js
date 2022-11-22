@@ -67,9 +67,8 @@ const getOrderListService = async (req, res, next) => {
 // get order by id
 const getOrderService = async (req, res, next) => {
   try {
-    let data = await Order.findOne({
-      $and: [{ _id: req.params.id }, { user: req.user.id }],
-    });
+    let userIds = req.body.userIds;
+    let data = await Order.find({ user: { $in: userIds } });
     return data;
   } catch (error) {
     next(error);

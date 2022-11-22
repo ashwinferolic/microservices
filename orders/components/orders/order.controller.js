@@ -3,18 +3,13 @@ const {
   addOrderService,
   getOrdersListService,
   cancelOrderByIdService,
-  getOrderIdListService,
   getOrderListService,
   getOrderService,
 } = require("./order.service");
 const {
   getOrderByIdInterService,
 } = require("../../interservices/order.interservice");
-const {
-  getUsersInterService,
-} = require("../../interservices/user.interservice");
 const { API } = require("../../interservices/config");
-const Order = require("./order.model");
 
 // add order
 const addOrder = async (req, res, next) => {
@@ -95,9 +90,25 @@ const getUserIds = async (req, res, next) => {
 
 const getUserDetails = async (req, res, next) => {
   try {
-    let user = await getUsersInterService(req, res, next);
-    if (user) {
-      res.status(200).json(user);
+    let orders = await getOrderService(req, res, next);
+    if (orders) {
+      // user promise
+      let promise = orders.map(async (order) => {
+        let user = await API.getUser(order.user);
+        order.user = user;
+        order.user.password = null;
+
+        // product promise
+        let products = order.products.map(async (item) => {
+          let productdata = await API.getProduct(item.product);
+          item.product = productdata;
+        });
+        await Promise.all(products).then((a) => a);
+        return order;
+      });
+
+      let data = await Promise.all(promise).then((a) => a);
+      return res.status(200).json(data);
     }
   } catch (error) {
     next(error);
