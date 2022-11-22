@@ -9,7 +9,6 @@ const {
   getOrdersList,
   cancelOrder,
   getUserIds,
-  getUserDetails,
   getOrderDetails,
 } = require("./order.controller");
 
@@ -21,6 +20,6 @@ router.delete("/details/:id", protected, cancelOrder);
 
 // admin
 router.get("/admin/users-list", protected, getUserIds);
-router.post("/admin/orders-details", protected, getUserDetails);
+router.post("/admin/orders-details", protected, getOrderDetails);
 
 module.exports = router;

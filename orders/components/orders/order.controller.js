@@ -88,7 +88,7 @@ const getUserIds = async (req, res, next) => {
   }
 };
 
-const getUserDetails = async (req, res, next) => {
+const getOrderDetails = async (req, res, next) => {
   try {
     let orders = await getOrderService(req, res, next);
     if (orders) {
@@ -121,5 +121,5 @@ module.exports = {
   getOrdersList,
   cancelOrder,
   getUserIds,
-  getUserDetails,
+  getOrderDetails,
 };
