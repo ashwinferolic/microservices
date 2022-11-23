@@ -1,0 +1,8 @@
+{
+  component: 'User',
+  METHOD: 'POST',
+  url: 'http://localhost:3000/api/users/register',
+  level: 'error',
+  message: 'User already exists',
+  timestamp: '2022-11-23 17:47:06'
+}

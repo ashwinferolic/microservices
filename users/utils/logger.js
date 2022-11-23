@@ -1,5 +1,7 @@
 const { createLogger, transports, format } = require("winston");
-const { combine, timestamp, json, prettyPrint } = format;
+const path = require("path");
+const { combine, timestamp, json } = format;
+require("winston-daily-rotate-file");
 
 const userLogger = () => {
   return createLogger({
@@ -9,12 +11,29 @@ const userLogger = () => {
       timestamp({
         format: "YYYY-MM-DD HH:mm:ss",
       }),
-      json(),
-      prettyPrint()
+      json()
     ),
     transports: [
-      new transports.File({ filename: "combined.log" }),
-      new transports.File({ filename: "error.log", level: "error" }),
+      new transports.DailyRotateFile({
+        frequency: "1m",
+        level: "info",
+        filename: "mrmed-combined-%DATE%.log",
+        dirname: path.resolve("logs"),
+        datePattern: "YYYY-MM-DD-HH",
+        zippedArchive: false,
+        maxSize: "20m",
+        maxFiles: "14d",
+      }),
+      new transports.DailyRotateFile({
+        frequency: "1m",
+        level: "error",
+        filename: "mrmed-error-%DATE%.log",
+        dirname: path.resolve("logs"),
+        datePattern: "YYYY-MM-DD-HH",
+        zippedArchive: false,
+        maxSize: "20m",
+        maxFiles: "14d",
+      }),
     ],
   });
 };
