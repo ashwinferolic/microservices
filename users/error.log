@@ -1,0 +1,8 @@
+{
+  component: 'User',
+  METHOD: 'POST',
+  url: 'http://localhost:3000/api/users/login',
+  level: 'error',
+  message: 'invalid username and password',
+  timestamp: '2022-11-23 16:22:37'
+}
